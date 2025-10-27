@@ -1,0 +1,39 @@
+import { strict as assert } from "node:assert";
+import { safeParseJson, stripFences } from "../utils/safeJson.js";
+import { normalizeAfter } from "../utils/normalize.js";
+
+const fenced = "Here is the plan:\n```json\n{\n  \"consultation\": {\n    \"styleSummary\": \"완료\",\n    \"changedItems\": []\n  }\n}\n```";
+const stripped = stripFences(fenced);
+assert.equal(stripped.includes('"consultation"'), true, "stripFences should retain JSON content");
+
+const parsed = safeParseJson<{ consultation: { styleSummary: string } }>(fenced);
+assert.equal(parsed.ok, true, "safeParseJson should succeed for fenced JSON");
+assert.equal(parsed.ok ? parsed.data.consultation.styleSummary : "fail", "완료");
+
+const noisy = "prefix>>> {\n  \"consultation\": {\"styleSummary\": \"요약\", \"changedItems\": []}\n} <<<suffix";
+const noisyParsed = safeParseJson<{ consultation: { styleSummary: string } }>(noisy);
+assert.equal(noisyParsed.ok, true, "safeParseJson should ignore prefix/suffix noise");
+assert.equal(noisyParsed.ok ? noisyParsed.data.consultation.styleSummary : "fail", "요약");
+
+const missingConsultation = safeParseJson<{ consultation: unknown }>("{\"summary\":\"oops\"}");
+assert.equal(missingConsultation.ok, false, "safeParseJson should fail without consultation key");
+assert.equal(missingConsultation.ok ? "unexpected" : missingConsultation.error, "JSON_OUTER_NOT_FOUND");
+
+const countSentences = (text: string) => (text.match(/[.!?？！。…]+/g) ?? []).length;
+const manySentences = Array.from({ length: 20 }, (_, i) => `문장${i + 1}.`).join(" ");
+const manyItems = Array.from({ length: 10 }, (_, i) => ({ id: `item-${i}`, isNewItem: true }));
+
+const normalized = normalizeAfter({ afterImageDescription: manySentences, changedItems: manyItems });
+assert.ok(countSentences(normalized.afterImageDescription ?? "") <= 14, "should clamp sentences to <=14");
+assert.ok((normalized.afterImageDescription ?? "").length <= 800, "should clamp description chars to <=800");
+assert.ok((normalized.changedItems ?? []).length <= 7, "should clamp items to <=7");
+
+const strictNormalized = normalizeAfter(
+  { afterImageDescription: manySentences, changedItems: manyItems },
+  { sentenceMin: 9, sentenceMax: 12, charMax: 600, itemMin: 5, itemMax: 5 },
+);
+assert.ok(countSentences(strictNormalized.afterImageDescription ?? "") <= 12, "strict clamp sentences to <=12");
+assert.ok((strictNormalized.afterImageDescription ?? "").length <= 600, "strict clamp chars to <=600");
+assert.equal((strictNormalized.changedItems ?? []).length, 5, "strict clamp forces exactly 5 items when possible");
+
+console.log("safeJson + normalization tests passed.");

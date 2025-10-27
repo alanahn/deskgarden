@@ -1,0 +1,8 @@
+{
+  "name": "Desk Decor AI Consultant",
+  "description": "이 앱은 사용자의 책상 사진과 원하는 스타일을 기반으로 Google Gemini AI를 활용하여 맞춤형 데스크테리어 컨설팅을 제공합니다. 사용자는 AI 제안을 'Before'와 'After' 이미지로 비교하고, 추천 아이템을 구매하거나 중고 마켓에서 찾아볼 수 있습니다. 또한, 다른 사용자의 컨설팅 결과를 피드에서 구경하고, 사용하지 않는 데스크 용품을 중고로 거래할 수 있는 마켓플레이스 기능도 갖추고 있습니다.",
+  "requestFramePermissions": [
+    "camera"
+  ],
+  "prompt": ""
+}

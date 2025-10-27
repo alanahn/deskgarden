@@ -1,0 +1,26 @@
+{
+  "name": "desk-decor-ai-consultant",
+  "private": true,
+  "version": "0.0.1",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "test": "npm run test:safe-json",
+    "test:safe-json": "rm -rf .tmp-tests && npx tsc tests/safeJson.test.ts tests/hotspot.test.ts tests/productLinks.test.ts tests/price.test.ts --module node16 --target ES2020 --moduleResolution node16 --outDir .tmp-tests && node .tmp-tests/tests/safeJson.test.js && node .tmp-tests/tests/hotspot.test.js && node .tmp-tests/tests/productLinks.test.js && node .tmp-tests/tests/price.test.js"
+  },
+  "dependencies": {
+    "react": "^19.1.0",
+    "react-router-dom": "^7.6.2",
+    "react-dom": "^19.1.0",
+    "@google/genai": "^1.4.0",
+    "firebase": "^11.9.1"
+  },
+  "devDependencies": {
+    "@types/node": "^22.14.0",
+    "@vitejs/plugin-react": "^5.0.0",
+    "typescript": "~5.8.2",
+    "vite": "^6.2.0"
+  }
+}
