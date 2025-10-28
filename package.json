@@ -2,7 +2,7 @@
   "name": "desk-decor-ai-consultant",
   "private": true,
   "version": "0.0.1",
-  "homepage": "https://alanahn.github.io/deskgard",
+  "homepage": "https://alanahn.github.io/deskgarden/",
   "type": "module",
   "scripts": {
     "dev": "vite",
