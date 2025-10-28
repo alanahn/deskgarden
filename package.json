@@ -10,6 +10,7 @@
     "predeploy": "npm run build",
     "deploy": "gh-pages -d dist",
     "preview": "vite preview",
+    "tailwind:init": "tailwindcss init -p",
     "test": "npm run test:safe-json",
     "test:safe-json": "rm -rf .tmp-tests && npx tsc tests/safeJson.test.ts tests/hotspot.test.ts tests/productLinks.test.ts tests/price.test.ts --module node16 --target ES2020 --moduleResolution node16 --outDir .tmp-tests && node .tmp-tests/tests/safeJson.test.js && node .tmp-tests/tests/hotspot.test.js && node .tmp-tests/tests/productLinks.test.js && node .tmp-tests/tests/price.test.js"
   },
@@ -23,7 +24,10 @@
   "devDependencies": {
     "@types/node": "^22.14.0",
     "@vitejs/plugin-react": "^5.0.0",
+    "autoprefixer": "^10.4.21",
     "gh-pages": "^6.3.0",
+    "postcss": "^8.5.6",
+    "tailwindcss": "^3.4.18",
     "typescript": "~5.8.2",
     "vite": "^6.2.0"
   }

@@ -1,0 +1,19 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* 
+  만약 기존에 사용하던 neumorphism 스타일이나 폰트 설정 등이 있다면
+  이 아래에 붙여넣어주세요. 
+*/
+:root {
+  --bg-color: #ECF0F3;
+  --primary-text: #3C4043;
+  /* ... 나머지 커스텀 스타일 ... */
+}
+
+html { 
+  font-family: "Pretendard Variable", "Pretendard", sans-serif;
+  /* ... */
+}
+/* ... */
